@@ -3,6 +3,7 @@ from database.setup import create_tables
 from lib.models.book import Book
 from lib.models.user import User
 from lib.models.bookcheckout import Bookcheckout
+from datetime import datetime, date
 
 #user
 def create_user(cursor):
@@ -12,6 +13,13 @@ def create_user(cursor):
     user = User(None, username, email, phone_number)
     user.create_user(cursor)
     print("User Added successfully!!!")
+
+    book_id = choose_book(cursor)
+    if book_id:
+        checkout_date = date.today()
+        bookcheckout = Bookcheckout(None, user.id, book_id, None, checkout_date, None, True)
+        bookcheckout.add_date(cursor)
+        print("Book assigned successfully!!!")
 
 def get_all_users(cursor):
     users = User.get_all_users(cursor)
@@ -84,6 +92,20 @@ def get_book_by_author(cursor):
             print(f"ID: {book.id}, Title: {book.title}, Publication Date: {book.publication_date}, Author: {book.author}, Genre: {book.genre}")
     else:
         print(f"No match!")
+
+#bookcheckout
+def choose_book(cursor):
+    cursor.execute("SELECT * FROM books")
+    books = cursor.fetchall()
+    if books:
+        print("Available Books:")
+        for book in books:
+            print(f"ID: {book[0]}, Title: {book[1]}, Publication Date: {book[2]}, Author: {book[3]}, Genre: {book[4]}")
+        book_id = int(input("Enter the ID of the book you want to take: "))
+        return book_id
+    else:
+        print("No books available.")
+        return None
 
 
 
