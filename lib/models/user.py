@@ -59,10 +59,10 @@ class User:
 
     def book(self, cursor):
         cursor.execute("""
-            SELECT books.title
+            SELECT books.id, books.title, books.publication_date, books.author, books.genre
             FROM books
             JOIN bookscheckout ON books.id = bookscheckout.book_id
-            WHERE bookcheckout.user_id = ?
+            WHERE bookscheckout.user_id = ?
         """, (self._id,))
         book_data = cursor.fetchall()
         return book_data

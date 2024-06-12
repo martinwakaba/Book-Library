@@ -32,14 +32,14 @@ def get_user(cursor):
         print(f"No match!")        
 
 def book(cursor):
-    user_id = input("Enter the user's ID to display book: ")
+    user_id = input("Enter the user's ID to display books: ")
     user = User(user_id, None, None, None)
     books = user.book(cursor)
 
     if books:
-        print(f"Book lent to User ID {user_id}:")
+        print(f"Books lent to User ID {user_id}:")
         for book in books:
-            print(f"ID: {book[0]}, Title: {book[1]}, Publication: {book[2]}, Author: {book[3]}")
+            print(f"ID: {book[0]}, Title: {book[1]}, Publication Date: {book[2]}, Author: {book[3]}, Genre: {book[4]}")
     else:
         print(f"No books found for User {user_id}.")
 
