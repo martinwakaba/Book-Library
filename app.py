@@ -24,13 +24,10 @@ def get_all_users(cursor):
 
 def get_user(cursor):
     user_num = input("Enter the phone number: ")
-    user = User(None, None, None, user_num)
-    num = user.get_user(cursor)
-
-    if num:
+    user = User.get_user(cursor, user_num)  
+    if user:
         print(f"User associated with phone number {user_num}:")
-        for n in num:
-            print(f"ID: {n[0]}, Name: {n[1]}, Email: {n[2]}")
+        print(f"ID: {user.id}, Name: {user.name}, Email: {user.email}")
     else:
         print(f"No match!")        
 
