@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date
 
 class Bookcheckout:
     def __init__(self, id, user_id, book_id, genre, checkout_date):
@@ -27,4 +27,11 @@ class Bookcheckout:
     @property
 
     def checkout_date(self):
-        retur
+        return self._checkout_date
+    
+    @checkout_date.setter
+    def checkout_date(self, value):
+        if isinstance(value, date):
+            self._checkout_date = value
+        else:
+            raise ValueError("checkout_date must be a date instance")
