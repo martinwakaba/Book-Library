@@ -69,7 +69,16 @@ def get_book_by_genre(cursor):
     book_genre = input("Enter the book genre: ")
     book = Book.get_book_by_genre(cursor, book_genre)  
     if book:
-        print(f"User associated with phone number {book_genre}:")
+        print(f"Books under {book_genre}: ")
+        print(f"ID: {book.id}, Title: {book.title}, Publication Date: {book.publication_date}, Author: {book.author}")
+    else:
+        print(f"No match!")
+
+def get_book_by_author(cursor):
+    book_author = input("Enter the book author: ")
+    book = Book.get_book_by_author(cursor, book_author)  
+    if book:
+        print(f"Books written by {book_author}:")
         print(f"ID: {book.id}, Title: {book.title}, Publication Date: {book.publication_date}, Author: {book.author}")
     else:
         print(f"No match!")
@@ -89,6 +98,7 @@ def main():
         print("5.  Add a book")
         print("6.  Show books")
         print("7. Show Book by genre")
+        print("8. Show Book by Author")
 
         choice = input("\nEnter A Number: ")
 

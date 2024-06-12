@@ -64,17 +64,19 @@ class Book:
         
     #getting books by genre
     @classmethod
-    def get_book_by_genre(self,cursor, genre):
-        cursor.execute("SELECT * FROM books WHERE genre = ?", (genre,))
-        book_data = cursor.fetchone()
-        return cls(id=book_data[0], title=book_data[1], publication_date=book_data[2], author=book_data[3], genre=book_data[4]) if user_data else None
+    def get_book_by_genre(cls,cursor, genre):
+        cursor.execute("SELECT * FROM books WHERE genre = ? OR  title = ?", (genre,))
+        book_data = cursor.fetchall()
+        return cls(id=book_data[0], title=book_data[1], publication_date=book_data[2], author=book_data[3], genre=book_data[4]) if book_data else None
 
     
     #getting book by title by author
-    def get_book_by_title(self, cursor):
-        cursor.execute("SELECT title FROM books WHERE author = ?", (self._author))
+    @classmethod
+    def get_book_by_author(cls, cursor, author):
+        cursor.execute("SELECT title FROM books WHERE author = ?", (author))
         book_data = cursor.fetchall()
-        return book_data if book_data else None
+        return cls(id=book_data[0], title=book_data[1], publication_date=book_data[2], author=book_data[3], genre=book_data[4]) if book_data else None
+
     
     #getting book status
     def book_availability(self, cursor):
