@@ -54,9 +54,9 @@ class Book:
         cursor.execute("INSERT INTO books (title, publication_date, author, genre) VALUES (?, ?, ?, ?)", (self._title, self._publication_date, self._author, self._genre))
         self._id = cursor
         return cursor
-    @classmethod
+    
     #getting a list of all books
-    def get_all_books(cls, cursor):
+    def get_all_books(self, cursor):
         cursor.execute("SELECT * FROM books")
         all_books = cursor.fetchall()
         return all_books
@@ -72,3 +72,13 @@ class Book:
         cursor.execute("SELECT title FROM books WHERE author = ?", (self._author))
         book_data = cursor.fetchall()
         return book_data if book_data else None
+    
+    #getting book status
+    def book_availability(self, cursor):
+        cursor.execute("""
+            SELECT COUNT(*)
+            FROM bookscheckout
+            WHERE book_id = ? AND checkout_date IS NOT NULL AND checkin_date IS NULL
+        """, (self._id,))
+        result = cursor.fetchone()
+        return result[0] == 0  # Return True if no active checkouts, False otherwise

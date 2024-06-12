@@ -5,7 +5,10 @@ from lib.models.user import User
 from lib.models.bookcheckout import Bookcheckout
 
 
-db_connection()
+def create_user(cursor):
+    username = input("Enter user name: ")
+    user = User(None)
+
 
 def main():
     
