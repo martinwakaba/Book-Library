@@ -30,6 +30,11 @@ class User:
     def phone_number(self):
         return self._phone_number
     
+    @phone_number.setter
+    def phone_number(self, value):
+        if len(value) != 10:
+            raise ValueError("Phone number should be 10 characters")
+    
     def create_user(self, cursor):
         cursor.execute("INSERT INTO users (name, email, phone_number) VALUES (?, ?, ?)", (self._name, self._email, self._phone_number))
         self._id = cursor.lastrowid
@@ -43,11 +48,11 @@ class User:
         return [cls(id=row[0], name=row[1], email=row[2], phone_number=row[3]) for row in user_data]
     
     #getting user by phone number
-
+    @classmethod
     def get_user(self, cursor):
         cursor.execute("SELECT * FROM users WHERE phone_number = ?", (self._phone_number))
-        all_user = cursor.fetchall()
-        return all_user
+        all_user = cursor.fetchone()
+        return all_user if all_user else None
 
     #getting book lent to user
 

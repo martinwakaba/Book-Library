@@ -27,6 +27,13 @@ def get_user(cursor):
     user = User(None, None, None, user_num)
     num = user.get_user(cursor)
 
+    if num:
+        print(f"User associated with phone number {user_num}:")
+        for n in num:
+            print(f"ID: {n[0]}, Name: {n[1]}, Email: {n[2]}")
+    else:
+        print(f"No match!")        
+
 def book(cursor):
     user_id = input("Enter the user's ID to display book: ")
     user = User(user_id, None, None, None)
@@ -50,7 +57,7 @@ def main():
         print("\nChoose:")
         print("1.  Add User")
         print("2.  Show Users")
-        print("3.  Create Article")
+        print("3.  Show User by number")
 
         choice = input("\nEnter A Number: ")
 
