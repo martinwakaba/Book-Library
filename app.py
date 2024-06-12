@@ -7,9 +7,11 @@ from lib.models.bookcheckout import Bookcheckout
 #user
 def create_user(cursor):
     username = input("Enter user name: ")
-    user = User(None, username, None, None)
+    email = input("Enter email address")
+    phone_number = input("Enter phone number")
+    user = User(None, username, email, phone_number)
     user.create_user(cursor)
-    print("User created")
+    print("User Added successfully!!!")
 
 def get_all_users(cursor):
     users = User.get_all_users(cursor)
@@ -47,10 +49,33 @@ def main():
     while True:
         print("\nChoose:")
         print("1.  Add User")
-        print("2.  Add Book")
+        print("2.  Show Users")
         print("3.  Create Article")
 
-        choice = input
+        choice = input("\nEnter A Number: ")
+
+        if choice == "1":
+            conn = db_connection()
+            cursor = conn.cursor()
+            create_user(cursor)
+            conn.commit()
+            conn.close()
+        elif choice == "2":
+            conn = db_connection()
+            cursor = conn.cursor()
+            get_all_users(cursor)
+            conn.commit()
+            conn.close()
+        elif choice == "3":
+            conn = db_connection()
+            cursor = conn.cursor()
+            get_user(cursor)
+            conn.commit()
+            conn.close()
+        else:
+            break
+
+
 
 
 if __name__ == "__main__":
