@@ -34,6 +34,13 @@ class User:
         cursor.execute("INSERT INTO users (name, email, phone_number) VALUES (?, ?, ?)", (self._name, self._email, self._phone_number))
         self._id = cursor.lastrowid
         return cursor
+    #getting all users
+
+    @classmethod
+    def get_all_users(cls, cursor):
+        cursor.execute("SELECT * FROM users")
+        user_data = cursor.fetchall()
+        return [cls(id=row[0], name=row[1]) for row in user_data]
     
     #getting user by phone number
 
@@ -54,4 +61,3 @@ class User:
         book_data = cursor.fetchall()
         return book_data
 
-    
