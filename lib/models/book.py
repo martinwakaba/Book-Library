@@ -63,10 +63,12 @@ class Book:
         return [cls(id=row[0], title=row[1], publication_date=row[2], author=row[3], genre=row[4]) for row in all_books]
         
     #getting books by genre
-    def get_book_by_genre(self,cursor):
-        cursor.execute("SELECT * FROM books WHERE genre = ?", (self._genre))
-        book_data = cursor.fetchall()
-        return book_data
+    @classmethod
+    def get_book_by_genre(self,cursor, genre):
+        cursor.execute("SELECT * FROM books WHERE genre = ?", (genre,))
+        book_data = cursor.fetchone()
+        return cls(id=book_data[0], title=book_data[1], publication_date=book_data[2], author=book_data[3], genre=book_data[4]) if user_data else None
+
     
     #getting book by title by author
     def get_book_by_title(self, cursor):

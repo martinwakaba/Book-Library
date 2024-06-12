@@ -65,6 +65,15 @@ def get_all_books(cursor):
     else:
         print(f"No Books available")
 
+def get_book_by_genre(cursor):
+    book_genre = input("Enter the book genre: ")
+    book = Book.get_book_by_genre(cursor, book_genre)  
+    if book:
+        print(f"User associated with phone number {book_genre}:")
+        print(f"ID: {book.id}, Title: {book.title}, Publication Date: {book.publication_date}, Author: {book.author}")
+    else:
+        print(f"No match!")
+
 
 
 def main():
@@ -79,6 +88,7 @@ def main():
         print("4.  Show Book lent to user")
         print("5.  Add a book")
         print("6.  Show books")
+        print("7. Show Book by genre")
 
         choice = input("\nEnter A Number: ")
 
@@ -118,6 +128,12 @@ def main():
             get_all_books(cursor)
             conn.commit()
             conn.close()
+        elif choice == "7":
+            conn = db_connection()
+            cursor = conn.cursor()
+            get_book_by_genre(cursor)
+            conn.commit()
+            conn.close()    
         else:
             break
 
