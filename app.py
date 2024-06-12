@@ -5,7 +5,7 @@ from lib.models.user import User
 from lib.models.bookcheckout import Bookcheckout
 
 
-
+db_connection()
 
 def main():
     
