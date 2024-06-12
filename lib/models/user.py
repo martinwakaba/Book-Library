@@ -47,7 +47,9 @@ class User:
     def book(self, cursor):
         cursor.execute("""
             SELECT books.*
-            FROM magazines
-            JOIN articles ON magazines.id = articles.magazine_id
-            WHERE articles.author_id = ?
+            FROM books
+            JOIN bookscheckout ON books.id = bookscheckout.book_id
+            WHERE bookcheckout.user_id = ?
         """, (self._id,))
+        book_data = cursor.fetchall()
+        return book_data
