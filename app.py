@@ -25,11 +25,33 @@ def get_user(cursor):
     user = User(None, None, None, user_num)
     num = user.get_user(cursor)
 
+def book(cursor):
+    user_id = input("Enter the user's ID to display book: ")
+    user = User(user_id, None, None, None)
+    books = user.book(cursor)
+
+    if books:
+        print(f"Book lent to User ID {user_id}:")
+        for book in books:
+            print(f"ID: {book[0]}, Title: {book[1]}, Publication: {book[2]}, Author: {book[3]}")
+    else:
+        print(f"No books found for User {user_id}.")
+
+
 
 
 def main():
     
     create_tables()
+
+    while True:
+        print("\nChoose:")
+        print("1.  Add User")
+        print("2.  Add Book")
+        print("3.  Create Article")
+
+        choice = input
+
 
 if __name__ == "__main__":
     main()
