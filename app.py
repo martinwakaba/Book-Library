@@ -7,7 +7,7 @@ from lib.models.bookcheckout import Bookcheckout
 #user
 def create_user(cursor):
     username = input("Enter user name: ")
-    user = User(None, username)
+    user = User(None, username, None, None)
     user.create_user(cursor)
     print("User created")
 
@@ -19,6 +19,12 @@ def get_all_users(cursor):
             print(f"ID: {user.id}, Name: {user.name}, Email: {user.email}")
     else:
         print("No User Found")
+
+def get_user(cursor):
+    user_num = input("Enter the phone number: ")
+    user = User(None, None, None, user_num)
+    num = user.get_user(cursor)
+
 
 
 def main():

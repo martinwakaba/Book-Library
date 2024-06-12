@@ -40,7 +40,7 @@ class User:
     def get_all_users(cls, cursor):
         cursor.execute("SELECT * FROM users")
         user_data = cursor.fetchall()
-        return [cls(id=row[0], name=row[1]) for row in user_data]
+        return [cls(id=row[0], name=row[1], email=row[2], phone_number=row[3]) for row in user_data]
     
     #getting user by phone number
 
