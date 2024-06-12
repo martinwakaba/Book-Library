@@ -19,7 +19,10 @@ def create_tables():
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL,
             email TEXT NOT NULL,
-            phone_number INT NOT NULL         
+            phone_number INT NOT NULL,
+            book_taken INTEGER,  
+            FOREIGN KEY(book_taken) REFERENCES books(id)
+                     
                    
         )
     ''')
