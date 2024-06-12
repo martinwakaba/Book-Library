@@ -10,16 +10,27 @@ def create_user(cursor):
     username = input("Enter user name: ")
     email = input("Enter email address: ")
     phone_number = input("Enter phone number: ")
-    cursor.execute("SELECT id, title FROM books")
+
+    cursor.execute("SELECT id, title, genre FROM books")
     books = cursor.fetchall()
+
     print("Available books:")
     for book in books:
-        print(f"ID: {book[0]}, Title: {book[1]}")
-    book_taken = input("Enter the ID of the book taken (or leave blank if none): ")
-    book_taken = int(book_taken) if book_taken else None
-    user = User(None, username, email, phone_number, book_taken)
+        print(f"ID: {book[0]}, Title: {book[1]}, Genre: {book[2]}")
+
+    book_taken_id = input("Enter the ID of the book taken (or leave blank if none): ")
+    book_taken_id = int(book_taken_id) if book_taken_id else None
+
+    user = User(None, username, email, phone_number, book_taken_id)
     user.create_user(cursor)
-    print("User Added successfully!")
+
+    if book_taken_id:
+        cursor.execute("""
+            INSERT INTO bookscheckout (user_id, book_id, genre, checkout_date)
+            VALUES (?, ?, (SELECT genre FROM books WHERE id = ?), datetime('now'))
+        """, (user.id, book_taken_id, book_taken_id))
+
+    print("User added successfully!")
 
 def get_all_users(cursor):
     users = User.get_all_users(cursor)
@@ -39,17 +50,15 @@ def get_user(cursor):
     else:
         print("No match!")      
 
-def book(cursor):
-    user_id = input("Enter the user's ID to display books: ")
-    user = User(user_id, None, None, None)
-    books = user.book(cursor)
-
-    if books:
-        print(f"Books lent to User ID {user_id}:")
-        for book in books:
-            print(f"ID: {book[0]}, Title: {book[1]}, Publication Date: {book[2]}, Author: {book[3]}, Genre: {book[4]}")
-    else:
-        print(f"No books found for User {user_id}.")
+def book(self, cursor):
+        cursor.execute("""
+            SELECT books.id, books.title, books.publication_date, books.author, books.genre
+            FROM books
+            JOIN bookscheckout ON books.id = bookscheckout.book_id
+            WHERE bookscheckout.user_id = ?
+        """, (self._id,))
+        book_data = cursor.fetchall()
+        return book_data
 
 
 #book
