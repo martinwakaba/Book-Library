@@ -31,6 +31,7 @@ def create_tables():
             genre TEXT,
             checkout_date DATE,
             checkin_date DATE,
+            book_taken BOOLEAN NOT NULL DEFAULT 0,
             FOREIGN KEY (user_id) REFERENCES users (id),
             FOREIGN KEY (book_id) REFERENCES books (id)            
                    
