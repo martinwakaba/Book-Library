@@ -10,34 +10,34 @@ def create_user(cursor):
     username = input("Enter user name: ")
     email = input("Enter email address: ")
     phone_number = input("Enter phone number: ")
-    user = User(None, username, email, phone_number)
+    cursor.execute("SELECT id, title FROM books")
+    books = cursor.fetchall()
+    print("Available books:")
+    for book in books:
+        print(f"ID: {book[0]}, Title: {book[1]}")
+    book_taken = input("Enter the ID of the book taken (or leave blank if none): ")
+    book_taken = int(book_taken) if book_taken else None
+    user = User(None, username, email, phone_number, book_taken)
     user.create_user(cursor)
-    print("User Added successfully!!!")
-
-    book_id = choose_book(cursor)
-    if book_id:
-        checkout_date = date.today()
-        bookcheckout = Bookcheckout(None, user.id, book_id, None, checkout_date, None, True)
-        bookcheckout.add_date(cursor)
-        print("Book assigned successfully!!!")
+    print("User Added successfully!")
 
 def get_all_users(cursor):
     users = User.get_all_users(cursor)
     if users:
         print("All Users: ")
         for user in users:
-            print(f"ID: {user.id}, Name: {user.name}, Email: {user.email}")
+            print(f"ID: {user.id}, Name: {user.name}, Email: {user.email}, Book Taken ID: {user.book_taken}")
     else:
         print("No User Found")
 
 def get_user(cursor):
     user_num = input("Enter the phone number: ")
-    user = User.get_user(cursor, user_num)  
+    user = User.get_user(cursor, user_num)
     if user:
         print(f"User associated with phone number {user_num}:")
-        print(f"ID: {user.id}, Name: {user.name}, Email: {user.email}")
+        print(f"ID: {user.id}, Name: {user.name}, Email: {user.email}, Book Taken ID: {user.book_taken}")
     else:
-        print(f"No match!")        
+        print("No match!")      
 
 def book(cursor):
     user_id = input("Enter the user's ID to display books: ")
@@ -175,6 +175,7 @@ def main():
             conn.commit()
             conn.close()         
         else:
+            print("Exiting...")
             break
 
 
