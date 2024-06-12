@@ -87,3 +87,6 @@ class Book:
         """, (self._id,))
         result = cursor.fetchone()
         return result[0] == 0  # Return True if no active checkouts, False otherwise
+
+    def remove_book(self, cursor):
+        pass
