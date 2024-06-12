@@ -29,3 +29,25 @@ class User:
     @property
     def phone_number(self):
         return self._phone_number
+    
+    def create_user(self, cursor):
+        cursor.execute("INSERT INTO users (name, email, phone_number) VALUES (?, ?, ?)", (self._name, self._email, self._phone_number))
+        self._id = cursor.lastrowid
+        return cursor
+    
+    #getting user by phone number
+
+    def get_user(self, cursor):
+        cursor.execute("SELECT * FROM users WHERE phone_number = ?", (self._phone_number))
+        all_user = cursor.fetchall()
+        return all_user
+
+    #getting book lent to user
+
+    def book(self, cursor):
+        cursor.execute("""
+            SELECT books.*
+            FROM magazines
+            JOIN articles ON magazines.id = articles.magazine_id
+            WHERE articles.author_id = ?
+        """, (self._id,))
