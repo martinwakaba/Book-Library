@@ -67,10 +67,11 @@ def get_all_books(cursor):
 
 def get_book_by_genre(cursor):
     book_genre = input("Enter the book genre: ")
-    book = Book.get_book_by_genre(cursor, book_genre)  
-    if book:
+    books = Book.get_books_by_genre(cursor, book_genre)  
+    if books:
         print(f"Books under {book_genre}: ")
-        print(f"ID: {book.id}, Title: {book.title}, Publication Date: {book.publication_date}, Author: {book.author}")
+        for book in books:
+            print(f"ID: {book.id}, Title: {book.title}, Publication Date: {book.publication_date}, Author: {book.author}, Genre: {book.genre}")
     else:
         print(f"No match!")
 
@@ -92,12 +93,12 @@ def main():
 
     while True:
         print("\nChoose:")
-        print("1.  Add User")
-        print("2.  Show Users")
-        print("3.  Show User by number")
-        print("4.  Show Book lent to user")
-        print("5.  Add a book")
-        print("6.  Show books")
+        print("1. Add User")
+        print("2. Show Users")
+        print("3. Show User by number")
+        print("4. Show Book lent to user")
+        print("5. Add a book")
+        print("6. Show books")
         print("7. Show Book by genre")
         print("8. Show Book by Author")
 
