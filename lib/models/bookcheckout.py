@@ -46,4 +46,11 @@ class Bookcheckout:
             self._checkout_date = value
         else:
             raise ValueError("check-in date must be a date instance")
+    #adding check in and check out time
+
+    def add_date(self, cursor):
+        cursor.execute("INSERT INTO bookscheckout (checkin_date, checkout_date) VALUES (?, ?)", (self._checkin_date, self._checkout_date))
+        time_date = cursor.lastrowid
+        return time_date
+    
     
