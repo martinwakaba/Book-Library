@@ -7,8 +7,8 @@ from lib.models.bookcheckout import Bookcheckout
 #user
 def create_user(cursor):
     username = input("Enter user name: ")
-    email = input("Enter email address")
-    phone_number = input("Enter phone number")
+    email = input("Enter email address: ")
+    phone_number = input("Enter phone number: ")
     user = User(None, username, email, phone_number)
     user.create_user(cursor)
     print("User Added successfully!!!")
@@ -47,6 +47,27 @@ def book(cursor):
         print(f"No books found for User {user_id}.")
 
 
+#book
+
+def add_book(cursor):
+    book_title = input("Enter book title: ")
+    publication = input("Enter publication date: ")
+    author = input("Enter book's author: ")
+    genre = input("Enter the genre of the book: ")
+    book = Book(None, book_title, publication, author, genre)
+    book.add_book(cursor)
+    print("Book Added successfully!!!")
+
+def get_all_books(cursor):
+    all_books = Book.get_all_books(cursor)
+    if all_books:
+        print("All books")
+        for book in all_books:
+            print(f"ID: {book.id}, Title: {book.title}, Publication Date: {book.publication_date}, Author: {book.author}, Genre: {book.genre}")
+
+    else:
+        print(f"No Books available")
+
 
 
 def main():
@@ -58,6 +79,8 @@ def main():
         print("1.  Add User")
         print("2.  Show Users")
         print("3.  Show User by number")
+        print("4.  Show Book lent to user")
+        print("5.  Add a book")
 
         choice = input("\nEnter A Number: ")
 
@@ -77,6 +100,18 @@ def main():
             conn = db_connection()
             cursor = conn.cursor()
             get_user(cursor)
+            conn.commit()
+            conn.close()
+        elif choice == "4":
+            conn = db_connection()
+            cursor = conn.cursor()
+            book(cursor)
+            conn.commit()
+            conn.close()    
+        elif choice == "5":
+            conn = db_connection()
+            cursor = conn.cursor()
+            add_book(cursor)
             conn.commit()
             conn.close()
         else:

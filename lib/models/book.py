@@ -56,10 +56,11 @@ class Book:
         return cursor
     
     #getting a list of all books
-    def get_all_books(self, cursor):
+    @classmethod
+    def get_all_books(cls, cursor):
         cursor.execute("SELECT * FROM books")
         all_books = cursor.fetchall()
-        return all_books
+        return [cls(id=row[0], title=row[1], publication_date=row[2], author=row[3], genre=row[4]) for row in all_books]
         
     #getting books by genre
     def get_book_by_genre(self,cursor):

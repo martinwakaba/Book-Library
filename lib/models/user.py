@@ -49,8 +49,8 @@ class User:
     
     #getting user by phone number
     @classmethod
-    def get_user(self, cursor):
-        cursor.execute("SELECT * FROM users WHERE phone_number = ?", (self._phone_number))
+    def get_user(cls, cursor):
+        cursor.execute("SELECT * FROM users WHERE phone_number = ?", (cls._phone_number))
         all_user = cursor.fetchone()
         return all_user if all_user else None
 
