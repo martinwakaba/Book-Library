@@ -81,6 +81,7 @@ def main():
         print("3.  Show User by number")
         print("4.  Show Book lent to user")
         print("5.  Add a book")
+        print("6.  Show books")
 
         choice = input("\nEnter A Number: ")
 
@@ -112,6 +113,12 @@ def main():
             conn = db_connection()
             cursor = conn.cursor()
             add_book(cursor)
+            conn.commit()
+            conn.close()
+        elif choice == "6":
+            conn = db_connection()
+            cursor = conn.cursor()
+            get_all_books(cursor)
             conn.commit()
             conn.close()
         else:

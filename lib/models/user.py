@@ -34,6 +34,7 @@ class User:
     def phone_number(self, value):
         if len(value) != 10:
             raise ValueError("Phone number should be 10 characters")
+        self._phone_number = value
     
     def create_user(self, cursor):
         cursor.execute("INSERT INTO users (name, email, phone_number) VALUES (?, ?, ?)", (self._name, self._email, self._phone_number))
