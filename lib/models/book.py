@@ -73,9 +73,9 @@ class Book:
     #getting book by title by author
     @classmethod
     def get_book_by_author(cls, cursor, author):
-        cursor.execute("SELECT title FROM books WHERE author = ?", (author))
+        cursor.execute("SELECT * FROM books WHERE author = ?", (author,))
         book_data = cursor.fetchall()
-        return cls(id=book_data[0], title=book_data[1], publication_date=book_data[2], author=book_data[3], genre=book_data[4]) if book_data else None
+        return [cls(id=row[0], title=row[1], publication_date=row[2], author=row[3], genre=row[4]) for row in book_data]
 
     
     #getting book status

@@ -76,10 +76,11 @@ def get_book_by_genre(cursor):
 
 def get_book_by_author(cursor):
     book_author = input("Enter the book author: ")
-    book = Book.get_book_by_author(cursor, book_author)  
-    if book:
+    books = Book.get_book_by_author(cursor, book_author)
+    if books:
         print(f"Books written by {book_author}:")
-        print(f"ID: {book.id}, Title: {book.title}, Publication Date: {book.publication_date}, Author: {book.author}")
+        for book in books:
+            print(f"ID: {book.id}, Title: {book.title}, Publication Date: {book.publication_date}, Author: {book.author}, Genre: {book.genre}")
     else:
         print(f"No match!")
 
@@ -143,7 +144,13 @@ def main():
             cursor = conn.cursor()
             get_book_by_genre(cursor)
             conn.commit()
-            conn.close()    
+            conn.close()
+        elif choice == "8":
+            conn = db_connection()
+            cursor = conn.cursor()
+            get_book_by_author(cursor)
+            conn.commit()
+            conn.close()         
         else:
             break
 
