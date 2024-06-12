@@ -20,7 +20,7 @@ class User:
         if len(value) == 0:
             raise ValueError("Name cannot be empty!!!")
         
-        self.name = value
+        self._name = value
     
     @property
     def email(self):
@@ -50,10 +50,10 @@ class User:
     
     #getting user by phone number
     @classmethod
-    def get_user(cls, cursor):
-        cursor.execute("SELECT * FROM users WHERE phone_number = ?", (cls._phone_number))
-        all_user = cursor.fetchone()
-        return all_user if all_user else None
+    def get_user(cls, cursor, phone_number):
+        cursor.execute("SELECT * FROM users WHERE phone_number = ?", (phone_number,))
+        user_data = cursor.fetchone()
+        return cls(id=user_data[0], name=user_data[1], email=user_data[2], phone_number=user_data[3]) if user_data else None
 
     #getting book lent to user
 
