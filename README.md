@@ -2,6 +2,8 @@ Book Library Management System
 Overview
 The Book Library Management System is a Python application designed to manage users, books, and book checkouts within a library. It allows users to add new users, add books to the library, associate users with borrowed books, and perform various queries related to users and books.
 
+Small Presentation for this project https://docs.google.com/presentation/d/1Qx0XBm5y5-P2EQkuRiYUC54QlZawsoKnlK-V4AiUCdo/edit#slide=id.g2e579e6d25f_0_8
+
 Features
 User Management:
 
