@@ -146,7 +146,8 @@ def main():
     create_tables()
 
     while True:
-        print("\nChoose:")
+        print("\n****************LIBRARY SYSTEM************************")
+        print("\n****Menu****")
         print("1. Add User")
         print("2. Show Users")
         print("3. Show User by number")
