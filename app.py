@@ -223,6 +223,7 @@ def main():
             conn.commit()
             conn.close()
         elif choice == "11":
+            print("Exiting...")
             exit()        
         else:
             print("Exiting...")
