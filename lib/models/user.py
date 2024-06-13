@@ -75,6 +75,8 @@ class User:
             WHERE bookscheckout.user_id = ?
         """, (self._id,))
         book_data = cursor.fetchall()
+        if not book_data:
+            return "No book taken"
         return book_data
 
     @classmethod

@@ -49,15 +49,21 @@ def get_user(cursor):
     else:
         print("No match!")      
 
-def book(self, cursor):
-        cursor.execute("""
-            SELECT books.id, books.title, books.publication_date, books.author, books.genre
-            FROM books
-            JOIN bookscheckout ON books.id = bookscheckout.book_id
-            WHERE bookscheckout.user_id = ?
-        """, (self._id,))
-        book_data = cursor.fetchall()
-        return book_data
+def show_book_taken(cursor):
+    user_id = int(input("Enter the user ID: "))
+    cursor.execute("SELECT * FROM users WHERE id = ?", (user_id,))
+    user_data = cursor.fetchone()
+    if user_data:
+        user = User(id=user_data[0], name=user_data[1], email=user_data[2], phone_number=user_data[3], book_taken=user_data[4])
+        books = user.book(cursor)
+        if books == "No book taken":
+            print("No book taken")
+        else:
+            print("Books taken by user:")
+            for book in books:
+                print(f"ID: {book[0]}, Title: {book[1]}, Publication Date: {book[2]}, Author: {book[3]}, Genre: {book[4]}")
+    else:
+        print("User not found")
 
 def remove_user(cursor):
     user_id = input("Enter the ID of the user you want to remove: ")
@@ -175,7 +181,7 @@ def main():
         elif choice == "4":
             conn = db_connection()
             cursor = conn.cursor()
-            book(cursor)
+            show_book_taken(cursor)
             conn.commit()
             conn.close()    
         elif choice == "5":
