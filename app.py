@@ -158,6 +158,7 @@ def main():
         print("8. Show Book by Author")
         print("9. Delete a Book")
         print("10. Delete a User")
+        print("11. Exit")
 
         choice = input("\nEnter A Number: ")
 
@@ -220,7 +221,9 @@ def main():
             cursor = conn.cursor()
             remove_user(cursor)
             conn.commit()
-            conn.close()         
+            conn.close()
+        elif choice == "11":
+            exit()        
         else:
             print("Exiting...")
             break
