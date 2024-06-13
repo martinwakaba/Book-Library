@@ -63,7 +63,7 @@ def show_book_taken(cursor):
             for book in books:
                 print(f"ID: {book[0]}, Title: {book[1]}, Publication Date: {book[2]}, Author: {book[3]}, Genre: {book[4]}")
     else:
-        print("User not found")
+        print("User has not taken any book")
 
 def remove_user(cursor):
     user_id = input("Enter the ID of the user you want to remove: ")
