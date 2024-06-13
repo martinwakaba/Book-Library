@@ -88,6 +88,12 @@ class Book:
         result = cursor.fetchone()
         return result[0] == 0  
     
+    #update availability
+    def update_availability(self, cursor, available):
+        cursor.execute("UPDATE books SET available = ? WHERE id = ?", (available, self._id))
+        return cursor.rowcount
+    
+    #deleting a book
     @classmethod
     def delete_book(cls, cursor, book_id):
         cursor.execute("DELETE FROM books WHERE id = ?", (book_id,))

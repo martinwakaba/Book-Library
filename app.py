@@ -10,27 +10,26 @@ def create_user(cursor):
     username = input("Enter user name: ")
     email = input("Enter email address: ")
     phone_number = input("Enter phone number: ")
-
-    cursor.execute("SELECT id, title, genre FROM books")
+    cursor.execute("SELECT id, title FROM books WHERE available = 1")
     books = cursor.fetchall()
-
     print("Available books:")
     for book in books:
-        print(f"ID: {book[0]}, Title: {book[1]}, Genre: {book[2]}")
-
-    book_taken_id = input("Enter the ID of the book taken (or leave blank if none): ")
-    book_taken_id = int(book_taken_id) if book_taken_id else None
-
-    user = User(None, username, email, phone_number, book_taken_id)
+        print(f"ID: {book[0]}, Title: {book[1]}")
+    book_taken = input("Enter the ID of the book taken (or leave blank if none): ")
+    book_taken = int(book_taken) if book_taken else None
+    
+    user = User(None, username, email, phone_number, book_taken)
     user.create_user(cursor)
+    
+    if book_taken:
 
-    if book_taken_id:
-        cursor.execute("""
-            INSERT INTO bookscheckout (user_id, book_id, genre, checkout_date)
-            VALUES (?, ?, (SELECT genre FROM books WHERE id = ?), datetime('now'))
-        """, (user.id, book_taken_id, book_taken_id))
+        cursor.execute("SELECT genre FROM books WHERE id = ?", (book_taken,))
+        genre = cursor.fetchone()[0]
 
-    print("User added successfully!")
+        bookcheckout = Bookcheckout(None, user.id, book_taken, genre,date.today(), None, True)
+        bookcheckout.checkout_book(cursor)
+    
+    print("User Added successfully!")
 
 def get_all_users(cursor):
     users = User.get_all_users(cursor)

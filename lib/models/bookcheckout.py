@@ -66,3 +66,13 @@ class Bookcheckout:
                        (self._checkin_date, self._checkout_date, self._book_taken))
         time_date = cursor.lastrowid
         return time_date
+    
+    #checking availabilty of the book
+    def checkout_book(self, cursor):
+        cursor.execute("INSERT INTO bookscheckout (user_id, book_id, genre, checkout_date, book_taken) VALUES (?, ?, ?, ?, ?)",
+                       (self._user_id, self._book_id, self._genre, self._checkout_date, self._book_taken))
+        rows = cursor.rowcount  
+        if rows > 0:
+           
+            cursor.execute("UPDATE books SET available = 0 WHERE id = ?", (self._book_id,))
+        return rows
