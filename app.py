@@ -60,6 +60,14 @@ def book(self, cursor):
         book_data = cursor.fetchall()
         return book_data
 
+def remove_user(cursor):
+    user_id = input("Enter the ID of the user you want to remove: ")
+    success = User.delete_user(cursor, user_id)
+    if success:
+        print(f"User with ID {user_id} successfully removed.")
+    else:
+        print(f"Failed to remove user with ID {user_id}. User ID not found.")
+
 
 #book
 
@@ -102,6 +110,14 @@ def get_book_by_author(cursor):
     else:
         print(f"No match!")
 
+def remove_book(cursor):
+    book_id = input("Enter the ID of the book you want to remove: ")
+    success = Book.delete_book(cursor, book_id)
+    if success:
+        print(f"Book with ID {book_id} successfully removed.")
+    else:
+        print(f"Failed to remove book with ID {book_id}. Book ID not found.")
+
 #bookcheckout
 def choose_book(cursor):
     cursor.execute("SELECT * FROM books")
@@ -115,6 +131,8 @@ def choose_book(cursor):
     else:
         print("No books available.")
         return None
+    
+
 
 
 
@@ -132,6 +150,8 @@ def main():
         print("6. Show books")
         print("7. Show Book by genre")
         print("8. Show Book by Author")
+        print("9. Delete a Book")
+        print("10. Delete a User")
 
         choice = input("\nEnter A Number: ")
 
@@ -181,6 +201,18 @@ def main():
             conn = db_connection()
             cursor = conn.cursor()
             get_book_by_author(cursor)
+            conn.commit()
+            conn.close()  
+        elif choice == "9":
+            conn = db_connection()
+            cursor = conn.cursor()
+            remove_book(cursor)
+            conn.commit()
+            conn.close()
+        elif choice == "10":
+            conn = db_connection()
+            cursor = conn.cursor()
+            remove_user(cursor)
             conn.commit()
             conn.close()         
         else:

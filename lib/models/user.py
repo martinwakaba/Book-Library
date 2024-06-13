@@ -77,3 +77,7 @@ class User:
         book_data = cursor.fetchall()
         return book_data
 
+    @classmethod
+    def delete_user(cls, cursor, user_id):
+        cursor.execute("DELETE FROM users WHERE id = ?", (user_id,))
+        return cursor.rowcount

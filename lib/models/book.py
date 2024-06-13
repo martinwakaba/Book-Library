@@ -86,7 +86,9 @@ class Book:
             WHERE book_id = ? AND checkout_date IS NOT NULL AND checkin_date IS NULL
         """, (self._id,))
         result = cursor.fetchone()
-        return result[0] == 0  # Return True if no active checkouts, False otherwise
-
-    def remove_book(self, cursor):
-        pass
+        return result[0] == 0  
+    
+    @classmethod
+    def delete_book(cls, cursor, book_id):
+        cursor.execute("DELETE FROM books WHERE id = ?", (book_id,))
+        return cursor.rowcount 
